@@ -22,7 +22,7 @@ public class XmlRead {
 	        Authenticator.setDefault(new CustomAuthenticator());
 	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	        // URL for the xml file
-	        URL url = new URL("http://192.168.30.100/setup/devicexml.cgi?ADDRESS=1&TYPE=DATA");
+	        URL url = new URL("http://192.168.30.105/setup/devicexml.cgi?ADDRESS=1&TYPE=DATA");
 	        DocumentBuilder db = dbf.newDocumentBuilder();
 	        Document doc = db.parse((url).openStream());
 	        doc.getDocumentElement().normalize();

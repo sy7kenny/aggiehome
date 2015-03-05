@@ -21,23 +21,23 @@ public class WriteToDB {
 		
 		DBObject data = (DBObject)JSON.parse(jsonSetParObj);
 		//System.out.println(jsonSetParObj);
-		MongoClientURI uri = new MongoClientURI("mongodb://test:test@ds050077.mongolab.com:50077/experimental");
+		MongoClientURI uri = new MongoClientURI("mongodb://gsfUser:gsfUser@ds030827.mongolab.com:30827/aggievillage");
 		try{
 			MongoClient mongoClient = new MongoClient(uri);
 			DB db = mongoClient.getDB(uri.getDatabase());
 			System.out.println("Connect to database successfully");
-			DBCollection testJson = db.getCollection("testJson");
-			//testJson.insert(data);
-			DBCursor cursor = testJson.find();
-			int i=1;
-	         while (cursor.hasNext()) { 
-	            System.out.println("Inserted Document: "+i); 
-	            DBObject doc = cursor.next();
-	            String json1 = doc.toString();
-	            System.out.println(json1); 
-	            
-	            i++;
-	         }
+			DBCollection testJson = db.getCollection("houseData");
+			testJson.insert(data);
+//			DBCursor cursor = testJson.find();
+//			int i=1;
+//	         while (cursor.hasNext()) { 
+//	            System.out.println("Inserted Document: "+i); 
+//	            DBObject doc = cursor.next();
+//	            String json1 = doc.toString();
+//	            System.out.println(json1); 
+//	            
+//	            i++;
+//	         }
 		}catch(Exception e){
 			System.out.println("Failed");
 		}
