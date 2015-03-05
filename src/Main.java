@@ -24,7 +24,7 @@ import xml.*;
 
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		AggieHome home=new AggieHome();
 		//EnergyMgmt control= new EnergyMgmt();
 		//SerialRead serialPort=new SerialRead();
@@ -32,6 +32,7 @@ public class Main {
 		DummyRead dummy=new DummyRead();
 		PrintOut printOut=new PrintOut();
 		WriteToFile writeToFile=new WriteToFile();
+		WriteToDB writeToDB = new WriteToDB();
 		EnergyMgmt1 energyMgmt1 = new EnergyMgmt1();
 		EnergyMgmt2 energyMgmt2 = new EnergyMgmt2();// normal routing
 		//generate classes for sma read/write, 
@@ -70,6 +71,7 @@ public class Main {
 		 // step 4. variables print out & data logging
 			    printOut.SetPrint(home,canPort,energyMgmt2);
 			    writeToFile.SetDatalog(home);
+			    writeToDB.setDataBase(home);
 		}
 	}
 }
