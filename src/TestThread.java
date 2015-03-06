@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import smaGson.SMA;
 import xml.XmlRead;
 
@@ -15,7 +17,8 @@ class MultiThread {
 	//generate classes for sma read/write, 
 	SMA smaPort2 = new SMA();
 	//and xml file read
-	XmlRead obviusPort=new XmlRead();	
+	XmlRead obviusPort=new XmlRead();
+	WriteToDB writeToDB = new WriteToDB();
 	
 	public synchronized void BatteryThread() {
     	home.time.SetTime();
@@ -43,10 +46,11 @@ class MultiThread {
 //    	System.out.println("Thread HOUSE");
         notify();
     }
-    public synchronized void CloudThread() {
+    public synchronized void CloudThread() throws IOException {
     	// step 4. variables print out & data logging
 	    printOut.SetPrint(home,canPort,energyMgmt2);
 	    writeToFile.SetDatalog(home);
+	    writeToDB.setDataBase(home);
 	    //System.out.println("Thread CLOUD");
         notify();
     }
@@ -62,7 +66,7 @@ class T1 implements Runnable {
 
     public void run() {
     	while (true) {
-   		 try {Thread.sleep(2000);}catch (InterruptedException e){e.printStackTrace();} 
+   		 try {Thread.sleep(1000);}catch (InterruptedException e){e.printStackTrace();} 
             m.BatteryThread();
         }
     }
@@ -93,8 +97,13 @@ class T3 implements Runnable {
 
     public void run() {
     	while (true) {
-   		 try {Thread.sleep(60000);}catch (InterruptedException e){e.printStackTrace();} 
-            m.CloudThread();
+   		 try {Thread.sleep(120000);}catch (InterruptedException e){e.printStackTrace();} 
+            try {
+				m.CloudThread();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 }
