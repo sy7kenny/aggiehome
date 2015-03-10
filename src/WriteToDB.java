@@ -1,12 +1,12 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -21,30 +21,32 @@ public class WriteToDB {
 		
 		DBObject data = (DBObject)JSON.parse(jsonSetParObj);
 		//System.out.println(jsonSetParObj);
-		MongoClientURI uri = new MongoClientURI("mongodb://test:test@ds050077.mongolab.com:50077/experimental");
+		MongoClientURI uri = new MongoClientURI("mongodb://gsfUser:gsfUser@ds030827.mongolab.com:30827/aggievillage");
 		try{
 			MongoClient mongoClient = new MongoClient(uri);
 			DB db = mongoClient.getDB(uri.getDatabase());
 			System.out.println("Connect to database successfully");
-			DBCollection testJson = db.getCollection("testJson");
-			//testJson.insert(data);
-			DBCursor cursor = testJson.find();
-			int i=1;
-	         while (cursor.hasNext()) { 
-	            System.out.println("Inserted Document: "+i); 
-	            DBObject doc = cursor.next();
-	            String json1 = doc.toString();
-	            System.out.println(json1); 
-	            
-	            i++;
-	         }
+			DBCollection testJson = db.getCollection("houseData");
+			testJson.insert(data);
+//			DBCursor cursor = testJson.find();
+//			int i=1;
+//	         while (cursor.hasNext()) { 
+//	            System.out.println("Inserted Document: "+i); 
+//	            DBObject doc = cursor.next();
+//	            String json1 = doc.toString();
+//	            System.out.println(json1); 
+//	            
+//	            i++;
+//	         }
 		}catch(Exception e){
 			System.out.println("Failed");
 		}
 	}
 	public static String jsonGen(AggieHome home) throws IOException{
 		Database d1 = new Database();
-		d1.setTime("Now");
+		Date date = new Date();
+		
+		d1.setTime(date.toString());
 		
 		Overall o1 = new Overall();
 		o1.setcPack(String.format("%.2f", home.battery.cPack));
