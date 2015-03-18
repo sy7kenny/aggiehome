@@ -178,19 +178,26 @@ public class AggieHome {
             	RealMatrix x,theta,x_old;
             	RealMatrix y,u,uold,a,b,c,d,vw,vx,vv,l;
             	RealMatrix p,phi;
+            	int rlscnt=1;
             	double lambda=0.00001;
             	public EKF(double soh){
             		 p=new Array2DRowRealMatrix(new double[][] {{0.0001,0,0},{0,0.0001,0},{0,0,0.00001}});
             		 phi=new Array2DRowRealMatrix(new double[][] {{1},{0},{0}});
             		 lambda=0.00001;
             		 
-            		 theta=new Array2DRowRealMatrix(new double[][] {{3.2},{0.001},{0.001},{soh},{40},{3.506},{0.1072},{-0.02725},{-0.3192},{0.1145}});
+            		 theta=new Array2DRowRealMatrix(new double[][] {{3.2},{0.01},{0.01},{soh},{40},{3.506},{0.1072},{-0.02725},{-0.3192},{0.1145}});
             		                                               // 0:voltage, 1:ro, 2:rs, 3:soh, 4:cap--ah, 5~9:ocv
             		 x=new Array2DRowRealMatrix(new double[][] {{0.8},{0}});
             		 vx=new Array2DRowRealMatrix(new double[][] {{0.01,0},{0,0.01}});
-            		 vw=new Array2DRowRealMatrix(new double[][] {{0.000001,0},{0,0.000001}});
+            		 vw=new Array2DRowRealMatrix(new double[][] {{0.0000001,0},{0,0.0000001}});
             		 l=new Array2DRowRealMatrix(new double[][] {{0.001},{0.001}});
             		 vv=new Array2DRowRealMatrix(new double[][] {{10}});
+            		 rlscnt=1;
+            	}
+            	public void IniRLS(){
+            		 p=new Array2DRowRealMatrix(new double[][] {{0.00001,0,0},{0,0.00001,0},{0,0,0.000001}});
+           		 	 phi=new Array2DRowRealMatrix(new double[][] {{1},{0},{0}});
+           		 	 lambda=0.00001;
             	}
             	public void UpdateEkf(double y_mes, double u_mes, double uold_mes, double dt, AggieHome.Battery.Cell cell){
             		// [x,V_x,L_x]=ekf(f,g,x,theta,y,uold,u,func_A,func_C_x,V_x,V_w,V_v,dt)
@@ -248,6 +255,13 @@ public class AggieHome {
                     if (theta.getEntry(2, 0)<0.001) theta.setEntry(2, 0,0.001);
                     if (theta.getEntry(1, 0)>0.1) theta.setEntry(1, 0,0.1);
                     if (theta.getEntry(2, 0)>0.1) theta.setEntry(2, 0,0.1);
+                    
+                    rlscnt=rlscnt+1;
+                    if (rlscnt==20){
+                    	rlscnt=1;
+                    	IniRLS();
+                    }
+                   
             	}
             }
     	}
