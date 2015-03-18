@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="lib/jssc.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.34-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Mad/git/aggiehome/lib/mongo-java-driver-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/mongo-java-driver-2.10.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

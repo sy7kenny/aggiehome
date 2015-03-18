@@ -97,11 +97,10 @@ class T3 implements Runnable {
 
     public void run() {
     	while (true) {
-   		 try {Thread.sleep(120000);}catch (InterruptedException e){e.printStackTrace();} 
+   		 try {Thread.sleep(600000);}catch (InterruptedException e){e.printStackTrace();} 
             try {
 				m.CloudThread();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
